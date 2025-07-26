@@ -51,6 +51,22 @@ while running:
 
     player.draw(screen)
 
+    # Update and draw enemy cars
+    for car in enemy_cars[:]:
+        car.update()
+        car.draw(screen)
+
+    # Remove off-screen cars and score
+    if car.off_screen(SCREEN_HEIGHT):
+        enemy_cars.remove(car)
+        score += 1
+
+    # Check for crash
+    if car.rect.colliderect(player.rect):
+        running = False  # Game Over
+        pygame.mixer.Sound("assets/sounds/crash.wav").play()
+
+
     # Score display
     font = pygame.font.SysFont(None, 36)
     text = font.render(f"Score: {score}", True, (255, 255, 255))

@@ -4,8 +4,8 @@ import random
 class Car:
     def __init__(self, image, x, y, speed):
         self.image = pygame.image.load(image).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (24, 40)) 
-        self.rect = self.image.get_rect(topleft=(x, y))
+        self.image = pygame.transform.scale(self.image, (35, 40)) 
+        self.rect = self.image.get_rect(center=(x, y))
         self.speed = speed
 
     def update(self):

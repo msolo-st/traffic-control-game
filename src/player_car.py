@@ -4,7 +4,7 @@ from config import LANES
 class PlayerCar:
     def __init__(self, image_path, x, y, speed):
         self.image = pygame.image.load(image_path).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (24, 40))
+        self.image = pygame.transform.scale(self.image, (35, 40))
         self.rect = self.image.get_rect(center=(x, y))
         self.speed = speed
 

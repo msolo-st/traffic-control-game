@@ -1,14 +1,14 @@
 
 # Screen settings
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 512
+SCREEN_HEIGHT = 768  # or however tall your window is
 FPS = 60
 
-LANES = [40, 64, 88]  # 3 lanes centered across screen
+LANES = [100, 160, 215, 265, 320, 375]  # 5 lane center X-positions
 
-# Enemy car settings
 ENEMY_MIN_SPEED = 4
 ENEMY_MAX_SPEED = 7
+PLAYER_SPEED = 7
 
 # Spawn interval (in milliseconds)
 INITIAL_SPAWN_INTERVAL = 1200

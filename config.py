@@ -1,7 +1,7 @@
 
 # Screen settings
 SCREEN_WIDTH = 512
-SCREEN_HEIGHT = 768  # or however tall your window is
+SCREEN_HEIGHT = 768  
 FPS = 60
 
 LANES = [100, 160, 215, 265, 320, 375]  # 5 lane center X-positions

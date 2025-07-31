@@ -14,7 +14,6 @@ clock = pygame.time.Clock()
 
 
 # Load background image
-# Load tile
 background = pygame.image.load("assets/images/background.png").convert()
 background = pygame.transform.scale(background, (SCREEN_WIDTH, 128))
 
@@ -23,7 +22,7 @@ scroll_y = 0
 SCROLL_SPEED = 4
 
 # Load player
-player = PlayerCar("/Users/matty/Documents/SEO TECH DEV/traffic-control-game/assets/images/player.png", SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100, speed=7)
+player = PlayerCar("assets/images/player.png", SCREEN_WIDTH // 2, SCREEN_HEIGHT - 100, speed=7)
 
 # Initialize and play background music
 pygame.mixer.init()
@@ -51,6 +50,43 @@ music_notes = []
 score = 0
 start_time = pygame.time.get_ticks()
 
+def show_start_screen():
+    waiting = True
+    font_big = pygame.font.SysFont(None, 72)
+    font_medium = pygame.font.SysFont(None, 36)
+    font_small = pygame.font.SysFont(None, 28)
+
+    # Draw background
+    scroll_y = 0
+    while waiting:
+        clock.tick(60)
+        scroll_y = (scroll_y + 2) % 128
+        for y in range(-128, SCREEN_HEIGHT, 128):
+            screen.blit(background, (0, y + scroll_y))
+
+        # Intro Text elements
+        title_text = font_big.render("HIGH SPEED", True, (255, 255, 255))
+        start_text = font_medium.render("Press any key to start", True, (0, 0, 0))
+        instr_text1 = font_small.render("Use left and right arrows to switch lanes", True, (0, 0, 0))
+        instr_text2 = font_small.render("Try not to crash!", True, (0, 0, 0))
+
+        # Intro Text sizes
+        screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 2 - 100))
+        screen.blit(start_text, (SCREEN_WIDTH // 2 - start_text.get_width() // 2, SCREEN_HEIGHT // 2))
+        screen.blit(instr_text1, (SCREEN_WIDTH // 2 - instr_text1.get_width() // 2, SCREEN_HEIGHT // 2 + 40))
+        screen.blit(instr_text2, (SCREEN_WIDTH // 2 - instr_text2.get_width() // 2, SCREEN_HEIGHT // 2 + 70))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.KEYDOWN:
+                waiting = False
+
+show_start_screen()
+
 running = True
 current_spawn_interval = spawn_interval  # track what the timer is currently set to
 
@@ -63,7 +99,9 @@ while running:
             running = False
 
         elif event.type == SPAWN_CAR_EVENT:
-            enemy_cars.append(spawn_enemy_car())
+            min_speed = max(2, 2 + difficulty_level)
+            max_speed = min(10, 4 + difficulty_level)
+            enemy_cars.append(spawn_enemy_car(speed_range=(min_speed, max_speed)))
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 player.switch_lane("LEFT")
@@ -76,7 +114,8 @@ while running:
                 ("assets/images/black.png", "assets/sounds/background.mp3"),
                 ("assets/images/green.png", "assets/sounds/drake.mp3"),
                 ("assets/images/purple.png", "assets/sounds/mellow.mp3"),
-                ("assets/images/yellow.png", "assets/sounds/cool.mp3")
+                ("assets/images/yellow.png", "assets/sounds/cool.mp3"),
+                ("assets/images/pink.png", "assets/sounds/best.mp3")
                     ]
             note_img, note_song = random.choice(note_options)
             lane_x = random.choice(LANES)
@@ -91,7 +130,7 @@ while running:
     SCROLL_SPEED = min(4 + difficulty_level, 12)
     new_spawn_interval = max(1200 - difficulty_level * 100, 400)
 
-    # ✅ Only update the timer if the interval has changed
+    # update the timer if interval has changed
     if new_spawn_interval != current_spawn_interval:
         current_spawn_interval = new_spawn_interval
         pygame.time.set_timer(SPAWN_CAR_EVENT, current_spawn_interval)

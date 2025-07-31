@@ -100,7 +100,7 @@ while running:
 
         elif event.type == SPAWN_CAR_EVENT:
             min_speed = max(2, 2 + difficulty_level)
-            max_speed = min(10, 4 + difficulty_level)
+            max_speed = max(min_speed, min(10, 4 + difficulty_level))  # ensures max_speed ≥ min_speed
             enemy_cars.append(spawn_enemy_car(speed_range=(min_speed, max_speed)))
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
